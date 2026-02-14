@@ -1,8 +1,11 @@
+import os
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.error import HTTPError
 from urllib.parse import urljoin
 from urllib.request import HTTPRedirectHandler, Request, build_opener
+
+from groq import Groq
 
 REDIRECT_CODES = (301, 302, 303, 307, 308)
 
@@ -92,3 +95,46 @@ def get_context():
             key = path.stem  # root name (filename without extension)
             content_by_name[key] = path.read_text()
     return content_by_name
+
+
+GROQ_MODEL = "llama-3.3-70b-versatile"
+
+
+def relate_article_to_context(article_text: str, context: dict, *, model: str = GROQ_MODEL) -> str:
+    """Use a Groq model to determine if any aspects of the article relate to the context.
+    context is a dict of name -> text (e.g. from get_context()).
+    Returns the model's analysis as a string.
+    """
+    api_key = os.environ.get("GROQ_API_KEY")
+    if not api_key:
+        raise ValueError("GROQ_API_KEY environment variable is not set")
+
+    context_blob = "\n\n".join(f"## {name}\n{text}" for name, text in context.items())
+    prompt = f"""You are given:
+1) An article (below under ARTICLE).
+2) Context: several named text sources (below under CONTEXT).
+
+Your task: Identify any aspects of the article that relate to, echo, contradict, or otherwise connect to the context. For each connection, say which context source it relates to and how. If nothing meaningfully relates, say so clearly and briefly.
+
+Keep your response concise and structured (e.g. bullet points or short paragraphs).
+
+---
+CONTEXT:
+{context_blob}
+
+---
+ARTICLE:
+{article_text}
+"""
+
+    client = Groq(api_key=api_key)
+    completion = client.chat.completions.create(
+        messages=[
+            {"role": "system", "content": "You analyze whether an article relates to given context. Be precise and concise."},
+            {"role": "user", "content": prompt},
+        ],
+        model=model,
+        temperature=0.2,
+        max_tokens=1024,
+    )
+    return completion.choices[0].message.content or ""
