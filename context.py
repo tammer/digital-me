@@ -114,9 +114,10 @@ def relate_article_to_context(article_text: str, context: dict, *, model: str = 
 1) An article (below under ARTICLE).
 2) Context: several named text sources (below under CONTEXT).
 
-Your task: Identify any aspects of the article that relate to, echo, contradict, or otherwise connect to the context. For each connection, say which context source it relates to and how. If nothing meaningfully relates, say so clearly and briefly.
-
-Keep your response concise and structured (e.g. bullet points or short paragraphs).
+Your task: write a short intro to the article to precede my repost of the article.
+The intro should discuss one of the key takeaways from the article. choose a takeway
+that intersects with the context. Don't cite the context in the intro.
+Examples: Great article by so-and-so emphasizing the importance of X.
 
 ---
 CONTEXT:
