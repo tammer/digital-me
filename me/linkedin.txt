@@ -1,0 +1,44 @@
+Post:
+
+The future might in fact be very, very bright for software developers ☀️ 
+
+Here's the logic, tell me where I'm wrong:
+
+The 20x Productivity Leap: AI hasn't just made devs slightly faster; it’s made them 5x to 20x more productive.
+
+The Buy/Build Reversal: For decades, "Buy" won because "Build" was too expensive, too slow, and too risky. But if building is suddenly 20x cheaper, the scales tip.
+
+The Death of "Shrink-Wrapped" SaaS: Why pay a massive annual subscription for a generic solution that gets you 80% of what you need, when an "Omni-Dev" can perpetually build and maintain 100% of what you need?
+
+Think about the math of the labor shift:
+
+In the old world, a SaaS company might employ 10 developers to maintain a product for 1,000 customers.
+
+In the new world, those 1,000 customers realize they don't need the SaaS company anymore. They decide to build their own bespoke, internal versions.
+To do that, they each hire an "Omni-Dev".
+
+The result? Those 10 developers at the SaaS company lose their jobs, but the market suddenly has a demand for 1,000 Omni-Devs at the individual organizations.
+
+As long as it takes more than 0.01 of a developer’s time to maintain a bespoke system, the total demand for developers actually increases.
+
+Perhaps the future isn't "No Code", it's "No SaaS"!
+
+
+
+Post:
+
+
+Last month we made eight new investments. Seven of those were in companies doing what I call “Niche AI.” That is to say, they are using AI to solve a specific problem endemic to a particular industry.
+
+In each case, three things were true:
+
+1️⃣ The product was essentially “Software-as-a-Knowledge Worker.”
+
+2️⃣ The problem was unsolvable by computer science until the advent of AI.
+
+3️⃣ The pre and post AI work is substantial, meaning plain ChatGPT will never be a competitor.
+
+I have an infinite appetite for these kinds of opportunities. If you’ve got a niche AI idea, I’ve got $250,000 for you to spark your idea to life this month.
+
+
+

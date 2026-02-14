@@ -1,0 +1,257 @@
+
+# Your Proof-of-Concept Proves Nothing
+You'll take too long failing if you actually build your product. Don't do it!
+Tammer Kamel
+Jan 21, 2026
+
+Investing at inception does not exempt me from having to compete for the opportunity to invest in the best founders. My pitch to them is this:
+
+"If I see a strong team with a compelling idea, I invest. I don’t need to see traction or customers or an MVP or anything really. Strong team, compelling idea, I’m in.”
+
+My pitch lacks clarity on one important aspect: what exactly do I consider “compelling”?
+
+“Compelling” is actually the wrong word because it suggests subjectivity. It suggests I will invest in ideas that I like. In reality, what I think of the idea is irrelevant. The only opinion that matters is that of the people who will supposedly be customers sometime in the future.
+
+A compelling idea is therefore a validated idea. It is one where there is evidence that the thing in the founder’s mind is valuable enough that people will pay for it.
+
+Existential Risk at Inception
+I’m zealous about validation because, for any inception stage startup, customer demand is an existential risk. If the startup is going to fail, the most likely reason is that there is no demand for the product.
+
+The stark reality is that more than 90% of what appear to be good product ideas are in fact not. If I mitigate this risk pre-investment, I, literally, increase my probability of success by at least 10x. The same logic holds for the founder, except they’re risking time, not capital.
+
+Founders have two choices:
+
+Build, brand, go-to-market and then find out if anyone cares, or
+
+Find out now.
+
+Time and again, and to their peril, founders opt for option 1. They are seduced by the delights of building and then rationalize their way to doing precisely that. “People need to see it to understand it” or “I’ll build the MVP fast”.
+
+Founders fall completely into the build trap when they start confusing progress on the product for progress of the business. In reality, the business only advances when it’s derisked in some way. Building some piece of software derisks nothing because, especially these days, anyone can program anything.
+
+This is why proof-of-concept almost never makes any sense. What is proven? That a certain spec can be coded? There was never any doubt of that and hence nothing to “prove”.
+
+Fail Fast
+The cold truth of a startup success is this: Unless every founding assumption about the product and the customer is actually correct (which happens approximately never), the founders will have to rapidly evolve their thinking to find product-market fit.
+
+Survival is determined by how quickly one can affirm, adjust, or refute the existential assumptions.
+
+If you make it your mission to fail fast, then you will strive to test existential assumptions immediately. The shortest path to truth rarely demands you actually build anything. It involves the unglamorous low tech art of engaging with the people you presume will buy your product.
+
+Three questions need answers:
+
+Do they have the problem you presume they have?
+
+Is your solution what they want?
+
+Will they pay you for it?
+
+Getting accurate answers to these three questions is the most empowering thing you can do as a founder. It allows your to jump to version 2 of your product without writing a line of code for version 1.
+
+The best founders will do this with as many prospective customers as they can access. And they will do it iteratively: test an idea with a customer, learn something, evolve, repeat. They might get to version 10, still having programmed nothing.
+
+How-To
+There is a right way to have these conversations to ensure customers don’t just tell you exactly what you want to hear. A line of questioning like, “Here’s my idea… Do you like it? Do you think I might try it?” gets you nowhere because the answer you’ll get will be something like: “Interesting idea! I’ll be happy to be a beta tester for you when it’s ready”.
+
+So while the idea of talking to customers is simple, there is an art to doing it well. The key is to learn to not ask leading questions. Interview in a way that does not signal to the listener the answer you hope for. I will write a full article on how to effectively do this. It will basically advocate you follow three basic rules:
+
+Talk about the present, not the future. It’s not “Would you use this?” Its “What do you do to about this currently?”
+
+Talk about their life, not your idea. Discuss their problems not your solutions.
+
+Don’t mistake compliments for affirmation. The only true affirmation is their willingness to commit time, money or their reputation in support of you.
+
+Two Exceptions
+For completeness, there are two scenarios where customer validation doesn’t apply:
+
+Deep Tech: When the risk really is technical and demand is certain (cancer cures, cold fusion, flying cars, etc), then building actually does derisk a business.
+
+Certain B2C Ideas: In areas like social media, gaming or entertainment you really can’t validate. Had the founders of Twitter surveyed people asking if they thought a blogging site where you can only write 140 characters had value, they would have never got affirmation and Twitter would never have been born. (I suppose one might argue that would have been a good thing, but that’s a different article.)
+
+Back to SaaS
+But in SaaS and especially B2B SaaS there is almost never an argument to build before validation. Any founder who eschews a validation-first approach is 10x to 50x more likely to fail thus wasting months or years doing so when they could have instead failed in a week or two (and then recalibrated).
+
+
+
+
+
+
+
+
+
+# The Best Pitches Devolve into Dialog
+Tammer Kamel
+Jan 15, 2026
+
+If you are pitching a VC, you aren’t succeeding because you are sailing through your slides perfectly. You are succeeding if the meeting transforms into a dialogue driven by the investor asking the right questions.
+
+When an investor asks questions that follow logically from an understanding of what you’ve just said, or when they push deeper on ideas you’ve shared, you are succeeding. Even when they challenge your assumptions, it is a sign of engagement. A good VC will quickly ask questions that get right to the heart of the risks inherent in your venture—provided you communicated clearly enough in the first ten minutes to allow them to see those risks.
+
+(For completeness, let me point out the inverse: If they are asking questions that reveal a lack of understanding of the basics you just covered, you are failing. The onus is yours to be perfectly understandable.)
+
+From Monologue to Dialog
+When your pitch devolves into dialog you are on the pathway towards the destination you’re hoping to reach. You advance on that pathway if the VC is asking smart questions and you keep answering them intelligently and concisely.
+
+Why is this better than keeping tight control on the narrative? Because every VC will bring their own prism to your pitch meeting. Every VC has different aspects of a business that they are going to perceive as the most important. VCs are pattern matchers. But you don’t know which pattern any particular VC will be looking for. It might be scalability or customer acquisition cost or technical moats.
+
+When you get them engaged they are signalling what they think is important. That allows you to spend the time speaking to them about exactly what they think is critical.
+
+Dialog is also the terrain where you can signal confidence and intellect that does not cross into arrogance. For example, it’s where you can acknowledge certain risks or unknowns if the VC finds their way to them. Sober acknowledgement that there are of course some unknowns and real risks in your venture shows intellect in a way that zealous defence of every opinion you have does not.
+
+Tactics
+There are practical tactics that follow from this philosophy: Your entire pitch strategy should be based on the goal of getting to the Q&A quickly. This demands the ability to communicate the essentials of your business in 10 minutes flat.
+
+How do you do that? You treat your 10 slide pitch not as a continuous essay, but as 10 separate elevator pitches, each no more than 90 seconds in length. Your product slide is accompanied by an elevator pitch about your product. Your traction slide is accompanied by an elevator pitch about traction. Etc.
+
+If you have the discipline to not explain everything and ability to be concise then you will drive the meeting towards the dialog you want it to be. In fact, when you get really good at this, you will learn to put hooks in your pitch that lead the listener directly to the questions you want.
+
+Furthermore, embrace digression. Digression in the direction the listener’s questions take you is what you want. If a VC interrupts you on slide 3, just go with it. Don’t be in a rush to get back on the rails of your script. The script is merely a backstop to use if their line of questioning ends.
+
+The icing on the cake here is when you have prepared enough so that you even have tight answers to whatever questions come at you. Nothing signals expertise like clear concise answers to difficult questions.
+
+Two things enable this:
+
+Pattern Recognition: VCs use similar prisms. You will get certain questions again and again.
+
+The “Never Twice” Rule: If you are ever asked a question that you don’t answer superbly, you must do the work necessary so that the next time you get that question, you crush it.
+
+The practical takeaways:
+90 seconds per slide max; 10 minutes total.
+
+Each slide is an elevator pitch that can stand on its own.
+
+Your pitch never goes deep; go deep when a question takes you there.
+
+
+
+
+
+
+# The Most Underrated Pitch Skill is Concision
+Concision improves a pitch. And the exercise of finding concision improves a founder.
+Tammer Kamel
+Jun 02, 2025
+The fundamental reason a founder needs a tight pitch is because anything less shifts the burden of clarity onto the listener. This is the last thing the founder wants. If the VC is required to decode the message then there is the real risk they cannot which effectively ends any chance of success for the founder.
+
+Tight pitches are difficult to construct because the concepts that make a startup a good investment are always nuanced. (Which is why good ideas and good investments are not plainly obvious to everyone.) To craft a tight pitch is to communicate nuanced ideas. And that is not easy.
+
+Before a VC can even consider the merits of an investment opportunity, they first have to “get it”. Many pitches don’t even clear this first hurdle. I suspect there are startups that died for lack of funding not because the business was untenable but because they were simply unable to make the VC “get it”.
+
+I have first hand experience with this: I once ran a startup that didn’t get funded by at least a dozen VCs and then, once we finally crafted a tight pitch, did. These days it happens to me as a VC: I listen carefully and ask questions and still don’t get it.
+
+Of course my acuity level and not the founder's communication skills could be the reason for this. But it actually doesn't matter. Unless the founder has at least one term sheet from elsewhere, it is incumbent on them to overcome this. It’s taken little time as a VC for me to learn that many do not.
+
+There are minimal resources that I can find that offer solutions for founders on this. The internet will yield lots of articles offering (often valuable) tactics for pitching well. But this challenge is more foundational; it’s rooted not in pitching but in fundamental communication skills. The best pitch tactics will not save a founder whose fundamental communication is flawed.
+
+I asked Abraham Thomas, who knows a lot about these sort of things, about the lack of resources on this. His reply:
+
+My impression is that almost nobody talks about this aspect of the pitch, perhaps on the theory that it can't be taught or optimized? Which is completely wrong, of course.
+
+I think he’s correct, it can be taught. In fact, I am going to attempt that right now. Even better, while I will start with first principles I will actually present a recipe that I believe can make any pitch better.
+
+Concision is the Hallmark of Mastery
+A tight pitch communicates nuanced concepts precisely and efficiently. There’s a word for this: concision. And here’s the thing about concision: it is the hallmark of mastery.
+
+One of the clearest signs that someone is a bona fide expert in a subject— whether in string theory or Pokémon — is their ability to discuss the topic with precision and clarity. I say “discuss” because anyone can recite a tight soundbite in spite of only superficial knowledge. But if you can engage in a dialogue where I interrogate you and you keep replying with concise answers the only explanation is that you have total command of the subject at hand.
+
+Concision implies expertise. The converse is not true. Expertise is insufficient to communicate concisely. It’s the basis. You can know something inside out but be unable to explain it well. If you want to explain it well, let alone be concise, there is no substitute for spending time crafting the words that actually work.
+
+Consider your favourite intellectual. I’ll use Chomsky for example. If you watch someone like Chomsky take a question, you almost always witness a masterclass in concision. Why is it that intellectuals like him can respond so concisely to whatever you ask them? It’s not just because they are experts. It’s because they’re not formulating answers to the questions they are being asked in real time. They are reaching into a bank of pre-constructed articulations, tweaking them accordingly and delivering.
+
+They are equipped with this bank for one reason: they write. Writing enables oral communication because its by-product is clarity of thought. Composing even one tight paragraph on a nuanced or complex subject demands intellectual persistence. Maybe on the 10th iteration, you succeed. At this point not only do you have the prose you just wrote, you have a concise articulation for one concept embedded in your mind.
+
+Imagine what happens to that bank when you author an entire paper or a book or a series of books. The bank becomes so rich that every question lobbed at you is a softball. You just mix and match a few of your sound bites and hit yet another home run. Show me an intellectual who is good on stage and I’ll show you a writer.
+
+A founder can adapt these principles to great effect. Two things simplify the adaptation. The first is scope. A founder does not actually need to develop a comprehensive articulation on that much. They just need a series of excellent answers to a well-defined set of questions, a dozen or two at the most. This is because there is basically one prism through which every VC looks at the world.1 For a founder it means they can know with high certainty what questions are coming their way in a pitch meeting, regardless of who is across the table. (What problem are you solving, why this team, why now, etc.)
+
+The second difference is AI. Until recently, perfect prose was available only to someone who could actually write well and could invest the hours or days the process demands. Today perfect prose is available on demand.
+
+Here then is the recipe I promised:
+
+For each question you know you must speak to:
+
+Write an answer as verbosely and imperfectly as you want, just make sure it is complete and contains the points you think are important.
+
+Instruct your AI of choice to craft a variant of what you just wrote that leaves out nothing but uses the minimal number of words. Iterate between this step and the previous one until you have a perfectly complete and concise answer.
+
+Memorize it so you can recite it almost word for word. You have to do this because you did not write this text yourself and hence the answer is not stamped in your mind the way it would have been had you suffered the pain of actually composing the text. (Seriously, don’t bother with anything I prescribe here if you intend to skip this step.)
+
+Speak your answer to the mirror a bit. This is speaking skills 101 stuff. (Saying it in your mind one hundred times is no substitute for saying it out loud even a few times.)
+
+That’s it. If you bake your pitch using this recipe – which still demands plenty of work by the way – your messaging will be tighter. The listener will not only “get it”, they will infer your expertise because of the conciseness of your communication.
+
+Let me underscore this formula with my experience. A few hours before we got the term sheet that effectively launched us toward success, my co-founder and I remarked to each other how “easy” the meeting had been.
+
+We were wrong. It wasn’t easy. It was just that we had reached a point where there was nothing anyone could ask us for which we did not have excellent, pre-articulated answers. Note that from our first failed pitch to our last successful one, nothing about our company or opportunity changed. The only thing that changed was the quality of our communication.
+
+This article, as good or bad as it may be, is more concise and more clear because I told AI to make it so. Effective communication by precision of thought was a superpower from the Enlightenment until November 2022. It is now available on demand for any founder who wants it.
+
+
+
+
+
+
+# A Quick Primer on TAM
+Total addressable market is calculated bottom up, not top down!
+Tammer Kamel
+Jun 17, 2025
+
+Top Down “TAM”
+Top-down TAM estimates are at best futile. At worst, they betray a founder’s incomplete understanding of their customer and their market.
+
+A top-down TAM estimate goes like this:
+
+Pull an estimate of industry size in dollars from some global consultancy’s report
+
+Determine what fraction of this big number is “addressable” and “obtainable”
+
+Conclude that future ARR is indeed hundreds of millions of dollars
+
+Add the 3-nested-circles diagram and the analysis might look credible. It’s actually meaningless.
+
+It’s meaningless because all it says is that there exists some category of buyers (defined by someone else) who spends money on certain types of products (also defined by someone else). This is, at best, vaguely related to the question that the founder should be answering, which is: how much money can they make selling their product to their potential customers?
+
+Global GDP is $106 trillion.If we capture just 0.0001% of this opportunity, we’ll make over $100 million in annual revenue.
+
+Though I am only ten weeks into my VC career, I have seen dozens of decks where TAM is presented top-down thus achieving nothing towards the founder’s fundraising objective. That has motivated this short primer.
+
+Bottom Up TAM
+There is a correct way to calculate TAM. It’s not complicated, requiring just two numbers:
+
+A. how many distinct people or businesses exist that you can sell to 
+B. How much can you charge each of them
+TAM is the product of these two numbers. That’s it.
+
+You get A (customer count) by precisely defining the attributes of your customer and systematically determining how many people or businesses fit that profile. There is no meaningful TAM estimate that can be created without doing this exercise.
+
+For example, your customer might be North American-based hotels with 100 rooms or less who are not affiliated with a major brand (Hilton, Marriott, etc). You and your AI assistant of choice will quickly learn that there are 11,500 of them.
+
+You get B (price) from:
+
+primary transaction data because you’ve actually sold your product a few times
+
+primary research data because you’ve properly engaged with prospects and have a good read on the what they will pay for your solution
+
+secondary data because you know what your direct competitors are charging for a similar solution sold to a similar customer
+
+some other rigorous and reliable market research
+
+Once you have A and B, one multiplication gets you TAM. It’s that simple. The work is all in the data collection.
+
+For completeness, I will note often there may be several customer profiles and they might not pay the same thing as each other. In this case, the exercise needs to be repeated for each customer type. TAM is then the sum of these “component TAMs”.
+
+Pitch Power
+Apart from bottom-up being the only valid approach to calculating TAM, it also happens to be far more powerful as a tool of persuasion compared to some top-down hand wavy TAM/SAM/SOM cliché.
+
+Sticking with our product for hotels, consider the persuasive power of being able to say this:
+
+We’ve sold our MVP at $1200 per month to two different hotels. There are 11,500 other hotels that match the profile of our two pilot customers implying our TAM is $1200 * 12 * 11,500 = $165,000,000.
+
+This message is so much more powerful than some stylized circle diagram starting with total IT spend by hotels in North America. Bottom-up TAM shows you know exactly who your customer is and exactly how big your market is. Furthermore, what you claim can be validated by a VC in about 30 seconds.
+
+Actual Power
+When a founder does TAM properly I’m impressed not because it gives me confidence in the opportunity size but because it shows me they truly understand their market and their customer. I know of exactly zero startups that succeed without this understanding.
+
+Without the components of TAM there can be no credible sales strategy, no credible marketing strategy and probably no credible product road map. Abraham Thomas puts it more starkly: “defining your customer and their price point implies your go-to-market strategy.”
+
+TAM is actually the tip of an iceberg. The part concealed underwater just happens to be the very foundation of the business. So, for pitching, bottom-up TAM is credible, persuasive, and—more importantly—the only valid way of taking the measurement. But the components of TAM also happen to be of existential importance to a startup and the reason why TAM is “required” in any pitch is not because VCs can’t figure out if the market is big enough. It’s there because it is the evidence that the rest of the iceberg is in fact present, below the surface.
