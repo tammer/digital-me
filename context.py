@@ -114,10 +114,10 @@ def relate_article_to_context(article_text: str, context: dict, *, model: str = 
 1) An article (below under ARTICLE).
 2) Context: several named text sources (below under CONTEXT).
 
-Your task: write a short intro to the article to precede my repost of the article.
-The intro should discuss one of the key takeaways from the article. choose a takeway
-that intersects with the context. Don't cite the context in the intro.
-Examples: Great article by so-and-so emphasizing the importance of X.
+Your task: What links can you find between the article and the context. Make share the links are solid. it is ok to conclude there are no links.
+be succinct and to the point.
+decide which is the best link andd why.
+Finally write a one or two sentence intro to the article noting the best link.
 
 ---
 CONTEXT:
