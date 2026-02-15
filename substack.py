@@ -22,4 +22,4 @@ def get_posts(newsletter_url: str, cut_off: str | None = None) -> list[dict]:
             "content": content,
             "summary": summarize_article(post.get_metadata().get("id"), content),
         })
-    return rv
+    return sorted(rv, key=lambda x: x["post_date"], reverse=True)
