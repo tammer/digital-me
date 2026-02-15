@@ -102,7 +102,7 @@ GROQ_MODEL = "llama-3.3-70b-versatile"
 _CACHE_DIR = Path(__file__).parent / "cache"
 
 
-def summarize_article(id: str, article_text: str, model: str = GROQ_MODEL) -> str:
+def summarize_article(id: str, article_url: str, model: str = GROQ_MODEL) -> str:
     _CACHE_DIR.mkdir(exist_ok=True)
     cache_path = _CACHE_DIR / f"{id}.txt"
     if cache_path.exists():
@@ -120,7 +120,7 @@ def summarize_article(id: str, article_text: str, model: str = GROQ_MODEL) -> st
     """
     user_prompt = f"""
     Article:
-    {article_text}
+    {get_article(post.url)}
     """
     completion = client.chat.completions.create(
         messages=[{"role": "system", "content": system_prompt}, {"role": "user", "content": article_text}],
