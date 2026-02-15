@@ -1,5 +1,6 @@
-from flask import Flask, render_template_string
+from flask import Flask, render_template_string, request, jsonify
 from build_list import build_list
+from substack import get_posts
 
 app = Flask(__name__)
 
@@ -94,5 +95,18 @@ def index():
     return render_template_string(HTML_TEMPLATE, items=items)
 
 
+
+@app.route("/api/posts/", methods=["POST"])
+def api_posts():
+    # Caller POSTs newsletter_url and optionally limit (form data).
+    newsletter_url = request.form.get("newsletter_url") or "https://illai.substack.com/"
+    try:
+        limit = int(request.form.get("limit") or 10)
+    except (TypeError, ValueError):
+        limit = 10
+    return get_posts(newsletter_url, limit)
+    
+
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True,port=5001)

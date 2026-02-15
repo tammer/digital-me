@@ -1,7 +1,5 @@
-from build_list import build_list
-import json
+from substack import get_posts
+import json 
 
-
-
-list = build_list()
-print(json.dumps(list, indent=4))
+posts = get_posts("https://illai.substack.com/", 10)
+print(json.dumps(posts, indent=4))

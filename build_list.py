@@ -23,7 +23,8 @@ def _build_list(newsletters, cut_off):
             post_date = metadata.get("post_date")[:10]
             if post_date < cut_off:
                 continue
-            summary = summarize_article(metadata.get("id"), post.url)
+            article_text = get_article(post.url)
+            summary = summarize_article(metadata.get("id"), article_text)
             list.append({
                 "id": metadata.get("id"),
                 "title": metadata.get("title"),
