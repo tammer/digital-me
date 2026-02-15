@@ -1,1 +1,2 @@
 groq>=0.4.0
+substack-api>=1.1.3

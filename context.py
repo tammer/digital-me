@@ -4,7 +4,7 @@ from pathlib import Path
 from urllib.error import HTTPError
 from urllib.parse import urljoin
 from urllib.request import HTTPRedirectHandler, Request, build_opener
-
+import json
 from groq import Groq
 
 REDIRECT_CODES = (301, 302, 303, 307, 308)
@@ -99,6 +99,27 @@ def get_context():
 
 GROQ_MODEL = "llama-3.3-70b-versatile"
 
+def summarize_article(id: str, article_text: str, model: str = GROQ_MODEL) -> str:
+    api_key = os.environ.get("GROQ_API_KEY")
+    if not api_key:
+        raise ValueError("GROQ_API_KEY environment variable is not set")
+    client = Groq(api_key=api_key)
+    system_prompt = """You summarize an article in two ways: short and full.
+    The short summary should be 50 words or less.
+    The full summary should around 200 words.
+    return a json object with the short and full summaries.
+    return pure json, no markdown or other formatting.
+    """
+    user_prompt = f"""
+    Article:
+    {article_text}
+    """
+    completion = client.chat.completions.create(
+        messages=[{"role": "system", "content": system_prompt}, {"role": "user", "content": article_text}],
+        model=model,
+    )
+    return json.loads(completion.choices[0].message.content or "{}")
+
 
 def relate_article_to_context(article_text: str, context: dict, *, model: str = GROQ_MODEL) -> str:
     """Use a Groq model to determine if any aspects of the article relate to the context.
@@ -117,7 +138,8 @@ def relate_article_to_context(article_text: str, context: dict, *, model: str = 
 Your task: What links can you find between the article and the context. Make share the links are solid. it is ok to conclude there are no links.
 be succinct and to the point.
 decide which is the best link andd why.
-Finally write a one or two sentence intro to the article noting the best link.
+Then write a one or two sentence intro to the article noting the best link.
+Finally, on a scale of 1 to 10, how likely is it that the article is relevant to the context?
 
 ---
 CONTEXT:
