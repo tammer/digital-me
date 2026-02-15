@@ -5,7 +5,7 @@ from summarize_article import summarize_article
 def get_posts(newsletter_url: str, cut_off: str | None = None) -> list[dict]:
     """cut_off must be of the form "yyyy-mm-dd". Posts with post_date[:10] < cut_off are excluded. If cut_off is None, all posts are included."""
     newsletter = Newsletter(newsletter_url)
-    posts = newsletter.get_posts(limit=10)
+    posts = newsletter.get_posts(limit=5)
     rv = []
 
     for post in posts:
