@@ -8,7 +8,9 @@ def build_list(cut_off=None):
     # open file newsletters.txt and read each line as a newsletter URL
     with open("newsletters.txt", "r") as file:
         newsletters = [line.strip() for line in file.readlines()]
-    return _build_list(newsletters, cut_off)
+    list = _build_list(newsletters, cut_off)
+    list.sort(key=lambda x: x["post_date"], reverse=True)
+    return list
 
 def _build_list(newsletters, cut_off):
     # returns a list of dicts where each dict contains the title, url, and post_date
