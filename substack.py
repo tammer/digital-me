@@ -3,6 +3,7 @@ from pathlib import Path
 from substack_api import Newsletter
 from htmlstripper import _strip_html
 from summarize_article import summarize_article
+from get_title import get_title
 
 CONTENT_CACHE_DIR = Path("content_cache")
 
@@ -40,3 +41,18 @@ def get_posts(newsletter_url: str, cut_off: str | None = None) -> list[dict]:
             "summary": summarize_article(post.get_metadata().get("id"), content),
         })
     return sorted(rv, key=lambda x: x["post_date"], reverse=True)
+
+
+def get_recommendations(newsletter_url: str) -> list[dict]:
+    """Return list of {url, title} for newsletters recommended by the given newsletter."""
+    newsletter = Newsletter(newsletter_url)
+    recs = newsletter.get_recommendations()
+    rv = []
+    for rec in recs:
+        url = rec.url
+        try:
+            result = get_title(url)
+            rv.append({"url": url, "title": result["title"], "subtitle": result["subtitle"]})
+        except Exception:
+            rv.append({"url": url, "title": "", "subtitle": None})
+    return rv

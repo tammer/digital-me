@@ -1,6 +1,6 @@
 from flask import Flask, render_template_string, request, jsonify
 from build_list import build_list
-from substack import get_posts
+from substack import get_posts, get_recommendations
 from get_title import get_title
 
 app = Flask(__name__)
@@ -23,6 +23,12 @@ def api_posts():
     return get_posts(newsletter_url)
 
 
+@app.route("/api/recommendations/", methods=["POST"])
+def api_recommendations():
+    newsletter_url = request.form.get("newsletter_url") or "https://illai.substack.com/"
+    return get_recommendations(newsletter_url)
+
+
 @app.route("/api/get_title/", methods=["POST"])
 def api_get_title():
     url = request.form.get("url")
@@ -32,8 +38,8 @@ def api_get_title():
     if not url.startswith(("http://", "https://")):
         return jsonify({"error": "url must be http or https"}), 400
     try:
-        title = get_title(url)
-        return jsonify({"title": title})
+        result = get_title(url)
+        return jsonify(result)
     except Exception as e:
         return jsonify({"error": "Failed to fetch or parse URL", "detail": str(e)}), 500
 
