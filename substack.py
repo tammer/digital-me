@@ -23,6 +23,9 @@ def _get_content(post) -> str:
 
 def get_posts(newsletter_url: str, cut_off: str | None = None) -> list[dict]:
     """cut_off must be of the form "yyyy-mm-dd". Posts with post_date[:10] < cut_off are excluded. If cut_off is None, all posts are included."""
+    # if url is missing the protocol, add https://
+    if not newsletter_url.startswith(("http://", "https://")):
+        newsletter_url = "https://" + newsletter_url
     newsletter = Newsletter(newsletter_url)
     posts = newsletter.get_posts(limit=5)
     rv = []
@@ -45,6 +48,9 @@ def get_posts(newsletter_url: str, cut_off: str | None = None) -> list[dict]:
 
 def get_recommendations(newsletter_url: str) -> list[dict]:
     """Return list of {url, title} for newsletters recommended by the given newsletter."""
+    # if url is missing the protocol, add https://
+    if not newsletter_url.startswith(("http://", "https://")):
+        newsletter_url = "https://" + newsletter_url
     newsletter = Newsletter(newsletter_url)
     recs = newsletter.get_recommendations()
     rv = []
