@@ -4,6 +4,7 @@ from substack import get_posts, get_recommendations
 from get_title import get_title
 
 app = Flask(__name__)
+# app.config["JSON_AS_ASCII"] = False  # output Unicode (e.g. ®) instead of \u00ae
 
 ALLOWED_ORIGINS = {"http://localhost:5173", "http://localhost:5174", "http://127.0.0.1:5173", "http://127.0.0.1:5174"}
 
