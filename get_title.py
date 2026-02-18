@@ -16,6 +16,9 @@ class NoRedirectHandler(HTTPRedirectHandler):
 
 def get_title(url: str, redirect_limit: int = 10) -> str:
     """Fetch the URL and return the content of the <title> element, or "" if none."""
+    # if url is missing the protocol, add https://
+    if not url.startswith("http"):
+        url = "https://" + url
     if redirect_limit <= 0:
         raise ValueError("Too many redirects")
     opener = build_opener(NoRedirectHandler())
