@@ -6,14 +6,15 @@ from get_title import get_title
 app = Flask(__name__)
 # app.config["JSON_AS_ASCII"] = False  # output Unicode (e.g. ®) instead of \u00ae
 
-ALLOWED_ORIGINS = {"http://localhost:5173", "http://localhost:5174", "http://127.0.0.1:5173", "http://127.0.0.1:5174"}
+ALLOWED_ORIGINS = {"http://localhost:3000", "http://localhost:5173", "http://localhost:5174", "http://127.0.0.1:3000", "http://127.0.0.1:5173", "http://127.0.0.1:5174"}
 
 @app.after_request
 def cors_headers(response):
     origin = request.headers.get("Origin")
-    print(origin)
     if origin in ALLOWED_ORIGINS:
         response.headers["Access-Control-Allow-Origin"] = origin
+        response.headers["Access-Control-Allow-Headers"] = "Authorization, Content-Type"
+        response.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
     return response
 
 
@@ -28,6 +29,18 @@ def api_posts():
 def api_recommendations():
     newsletter_url = request.form.get("newsletter_url") or "https://illai.substack.com/"
     return get_recommendations(newsletter_url)
+
+
+@app.route("/newsletters/subscribe-by-url", methods=["POST", "OPTIONS"])
+def subscribe_by_url():
+    if request.method == "OPTIONS":
+        return "", 204
+    data = request.get_json(silent=True) or {}
+    url = (data.get("url") or "").strip()
+    if not url:
+        return jsonify({"success": False, "message": "url is required"}), 400
+    # TODO: write subscription to database
+    return jsonify({"success": True, "message": "Subscription added."})
 
 
 @app.route("/api/get_title/", methods=["POST"])
