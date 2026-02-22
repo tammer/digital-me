@@ -1,4 +1,8 @@
+from urllib.parse import urlparse
+
 from flask import Flask, render_template_string, request, jsonify
+from substack_api import Newsletter
+
 from build_list import build_list
 from substack import get_posts, get_recommendations
 from get_title import get_title
@@ -31,6 +35,16 @@ def api_recommendations():
     return get_recommendations(newsletter_url)
 
 
+def _normalize_newsletter_url(url: str) -> str | None:
+    """Return newsletter root URL (scheme + netloc) or None if invalid scheme."""
+    if not url.startswith(("http://", "https://")):
+        url = "https://" + url
+    parsed = urlparse(url)
+    if parsed.scheme not in ("http", "https") or not parsed.netloc:
+        return None
+    return f"{parsed.scheme}://{parsed.netloc}"
+
+
 @app.route("/newsletters/subscribe-by-url", methods=["POST", "OPTIONS"])
 def subscribe_by_url():
     if request.method == "OPTIONS":
@@ -39,8 +53,26 @@ def subscribe_by_url():
     url = (data.get("url") or "").strip()
     if not url:
         return jsonify({"success": False, "message": "url is required"}), 400
+    normalized = _normalize_newsletter_url(url)
+    if normalized is None:
+        return jsonify({"success": False, "message": "Invalid URL"}), 400
+    try:
+        newsletter = Newsletter(normalized)
+        newsletter.get_posts(limit=1)
+    except Exception:
+        return jsonify({"success": False, "message": "Not a valid Substack newsletter"}), 400
+    try:
+        info = get_title(normalized)
+        title = info.get("title") or ""
+        subtitle = info.get("subtitle")
+    except Exception:
+        title = ""
+        subtitle = None
+    payload = {"success": True, "message": "Newsletter added.", "title": title}
+    if subtitle is not None:
+        payload["subtitle"] = subtitle
     # TODO: write subscription to database
-    return jsonify({"success": True, "message": "Subscription added."})
+    return jsonify(payload)
 
 
 @app.route("/api/get_title/", methods=["POST"])
