@@ -1,15 +1,61 @@
+import os
 from urllib.parse import urlparse
 
+import jwt
+from dotenv import load_dotenv
 from flask import Flask, render_template_string, request, jsonify
 from substack_api import Newsletter
+from supabase import create_client
 
 from build_list import build_list
 from substack import get_posts, get_recommendations
 from get_title import get_title
 
-app = Flask(__name__)
-# app.config["JSON_AS_ASCII"] = False  # output Unicode (e.g. ®) instead of \u00ae
+load_dotenv()
 
+app = Flask(__name__)
+_supabase_client = None
+
+
+def _get_supabase():
+    """Return Supabase client (cached). Requires SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY in env."""
+    global _supabase_client
+    if _supabase_client is None:
+        url = os.environ.get("SUPABASE_URL")
+        key = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
+        if not url or not key:
+            raise RuntimeError("SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY must be set")
+        _supabase_client = create_client(url, key)
+    return _supabase_client
+
+
+def _get_user_id_from_request() -> str | None:
+    """Extract and verify Bearer JWT; return sub (user_id) or None."""
+    auth = request.headers.get("Authorization")
+    print("auth")
+    print(auth)
+    if not auth or not auth.startswith("Bearer "):
+        return None
+    token = auth[7:].strip()
+    print("token")
+    print(token)
+    if not token:
+        return None
+    secret = os.environ.get("SUPABASE_JWT_SECRET")
+    print("secret")
+    print(secret)
+    if not secret:
+        return None
+    try:
+        payload = jwt.decode(token, secret, algorithms=["HS256"])
+        print("payload")
+        print(payload)
+        return payload.get("sub")
+    except Exception:
+        return None
+
+
+# app.config["JSON_AS_ASCII"] = False  # output Unicode (e.g. ®) instead of \u00ae
 ALLOWED_ORIGINS = {"http://localhost:3000", "http://localhost:5173", "http://localhost:5174", "http://127.0.0.1:3000", "http://127.0.0.1:5173", "http://127.0.0.1:5174"}
 
 @app.after_request
@@ -68,10 +114,21 @@ def subscribe_by_url():
     except Exception:
         title = ""
         subtitle = None
-    payload = {"success": True, "message": "Newsletter added.", "title": title}
+    user_id = _get_user_id_from_request()
+    if not user_id:
+        return jsonify({"success": False, "message": "Unauthorized"}), 401
+    try:
+        supabase = _get_supabase()
+    except RuntimeError:
+        return jsonify({"success": False, "message": "Failed to save subscription. Please try again."}), 500
+    try:
+        supabase.table("newsletter_urls").insert({"user_id": user_id, "url": normalized}).execute()
+    except Exception:
+        return jsonify({"success": False, "message": "Failed to save subscription. Please try again."}), 500
+    message = f"Added: {title}" if title else "Added."
+    payload = {"success": True, "message": message, "title": title}
     if subtitle is not None:
         payload["subtitle"] = subtitle
-    # TODO: write subscription to database
     return jsonify(payload)
 
 
