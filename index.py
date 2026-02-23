@@ -132,10 +132,23 @@ def subscribe_by_url():
     except RuntimeError:
         return jsonify({"success": False, "message": "Failed to save subscription. Please try again."}), 500
     try:
-        supabase.table("newsletter_urls").insert({"user_id": user_id, "url": normalized}).execute()
+        existing = (
+            supabase.table("newsletter_urls")
+            .select("id")
+            .eq("user_id", user_id)
+            .eq("url", normalized)
+            .execute()
+        )
     except Exception:
         return jsonify({"success": False, "message": "Failed to save subscription. Please try again."}), 500
-    message = f"Added: {title}" if title else "Added."
+    if existing.data:
+        message = "You're already subscribed to this newsletter."
+    else:
+        try:
+            supabase.table("newsletter_urls").insert({"user_id": user_id, "url": normalized}).execute()
+        except Exception:
+            return jsonify({"success": False, "message": "Failed to save subscription. Please try again."}), 500
+        message = f"Added: {title}" if title else "Added."
     payload = {"success": True, "message": message, "title": title}
     if subtitle is not None:
         payload["subtitle"] = subtitle
