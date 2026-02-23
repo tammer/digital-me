@@ -2,6 +2,7 @@ import os
 from urllib.parse import urlparse
 
 import jwt
+from jwt import PyJWKClient
 from dotenv import load_dotenv
 from flask import Flask, render_template_string, request, jsonify
 from substack_api import Newsletter
@@ -15,6 +16,18 @@ load_dotenv()
 
 app = Flask(__name__)
 _supabase_client = None
+_jwks_client = None
+
+
+def _get_jwks_client() -> PyJWKClient:
+    """Return cached JWKS client for Supabase Auth (ES256 public keys)."""
+    global _jwks_client
+    if _jwks_client is None:
+        url = os.environ.get("SUPABASE_URL", "").rstrip("/")
+        if not url:
+            raise RuntimeError("SUPABASE_URL must be set")
+        _jwks_client = PyJWKClient(f"{url}/auth/v1/.well-known/jwks.json")
+    return _jwks_client
 
 
 def _get_supabase():
@@ -30,26 +43,23 @@ def _get_supabase():
 
 
 def _get_user_id_from_request() -> str | None:
-    """Extract and verify Bearer JWT; return sub (user_id) or None."""
+    """Extract and verify Bearer JWT (ES256 via JWKS); return sub (user_id) or None."""
     auth = request.headers.get("Authorization")
-    print("auth")
-    print(auth)
     if not auth or not auth.startswith("Bearer "):
         return None
     token = auth[7:].strip()
-    print("token")
-    print(token)
     if not token:
         return None
-    secret = os.environ.get("SUPABASE_JWT_SECRET")
-    print("secret")
-    print(secret)
-    if not secret:
-        return None
     try:
-        payload = jwt.decode(token, secret, algorithms=["HS256"])
-        print("payload")
-        print(payload)
+        jwks = _get_jwks_client()
+        signing_key = jwks.get_signing_key_from_jwt(token)
+        payload = jwt.decode(
+            token,
+            signing_key.key,
+            algorithms=["ES256"],
+            audience="authenticated",
+            options={"verify_aud": True},
+        )
         return payload.get("sub")
     except Exception:
         return None
