@@ -183,7 +183,7 @@ def get_newsletters():
         try:
             info = get_title(url)
             item["title"] = info.get("title") or ""
-            item["author"] = info.get("subtitle") or ""
+            item["author"] = info.get("author") or ""
         except Exception:
             pass
         newsletters.append(item)
