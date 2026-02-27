@@ -7,6 +7,27 @@ from get_title import get_title
 
 CONTENT_CACHE_DIR = Path("content_cache")
 
+def get_posts_list(newsletter_url: str, limit: int = 20) -> list[dict]:
+    """Return list of { id, title, url, post_date } for a newsletter (no content/summary)."""
+    if not newsletter_url.startswith(("http://", "https://")):
+        newsletter_url = "https://" + newsletter_url
+    newsletter = Newsletter(newsletter_url)
+    posts = newsletter.get_posts(limit=limit)
+    rv = []
+    for post in posts:
+        meta = post.get_metadata()
+        post_date = meta.get("post_date") or ""
+        if len(post_date) >= 10:
+            post_date = post_date[:10]
+        rv.append({
+            "id": meta.get("id"),
+            "title": meta.get("title"),
+            "url": meta.get("canonical_url"),
+            "post_date": post_date,
+        })
+    return sorted(rv, key=lambda x: x["post_date"], reverse=True)
+
+
 def _get_content(post) -> str:
     post_id = post.get_metadata().get("id")
     if post_id is not None:

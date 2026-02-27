@@ -1,5 +1,5 @@
 import os
-from urllib.parse import urlparse
+from urllib.parse import urlparse, unquote
 
 import jwt
 from jwt import PyJWKClient
@@ -9,7 +9,7 @@ from substack_api import Newsletter
 from supabase import create_client
 
 from build_list import build_list
-from substack import get_posts, get_recommendations
+from substack import get_posts, get_posts_list, get_recommendations
 from get_title import get_title
 
 load_dotenv()
@@ -188,6 +188,54 @@ def get_newsletters():
             pass
         newsletters.append(item)
     return jsonify({"newsletters": newsletters})
+
+
+@app.route("/posts", methods=["GET"])
+def get_posts_route():
+    """Return posts for a newsletter: { posts: [ { title, date, read [, id, url] } ] }. Requires Bearer auth."""
+    user_id = _get_user_id_from_request()
+    if not user_id:
+        return jsonify({"error": "Unauthorized"}), 401
+    newsletter_url = (request.args.get("newsletter_url") or "").strip()
+    if not newsletter_url:
+        return jsonify({"error": "newsletter_url is required"}), 400
+    newsletter_url = unquote(newsletter_url)
+    normalized = _normalize_newsletter_url(newsletter_url)
+    if normalized is None:
+        return jsonify({"error": "Invalid newsletter URL"}), 400
+    read_post_ids = set()
+    try:
+        supabase = _get_supabase()
+        rows = (
+            supabase.table("read_posts")
+            .select("post_id")
+            .eq("user_id", user_id)
+            .execute()
+        )
+        for row in (rows.data or []):
+            pid = row.get("post_id")
+            if pid is not None:
+                read_post_ids.add(pid)
+    except Exception:
+        pass
+    try:
+        raw_posts = get_posts_list(normalized)
+    except Exception:
+        return jsonify({"error": "Failed to fetch posts"}), 500
+    posts = []
+    for p in raw_posts:
+        post_id = p.get("id")
+        item = {
+            "title": p.get("title") or "",
+            "date": p.get("post_date") or "",
+            "read": post_id in read_post_ids if post_id is not None else False,
+        }
+        if post_id is not None:
+            item["id"] = post_id
+        if p.get("url") is not None:
+            item["url"] = p["url"]
+        posts.append(item)
+    return jsonify({"posts": posts})
 
 
 @app.route("/api/get_title/", methods=["POST"])
