@@ -155,6 +155,41 @@ def subscribe_by_url():
     return jsonify(payload)
 
 
+@app.route("/newsletters", methods=["GET"])
+def get_newsletters():
+    """Return the authenticated user's newsletters: { newsletters: [ { title, author, url [, id] } ] }."""
+    user_id = _get_user_id_from_request()
+    if not user_id:
+        return jsonify({"error": "Unauthorized"}), 401
+    try:
+        supabase = _get_supabase()
+    except RuntimeError:
+        return jsonify({"error": "Service unavailable"}), 500
+    try:
+        rows = (
+            supabase.table("newsletter_urls")
+            .select("id, url")
+            .eq("user_id", user_id)
+            .execute()
+        )
+    except Exception:
+        return jsonify({"error": "Failed to load newsletters"}), 500
+    newsletters = []
+    for row in (rows.data or []):
+        url = row.get("url") or ""
+        item = {"url": url, "title": "", "author": ""}
+        if row.get("id") is not None:
+            item["id"] = row["id"]
+        try:
+            info = get_title(url)
+            item["title"] = info.get("title") or ""
+            item["author"] = info.get("subtitle") or ""
+        except Exception:
+            pass
+        newsletters.append(item)
+    return jsonify({"newsletters": newsletters})
+
+
 @app.route("/api/get_title/", methods=["POST"])
 def api_get_title():
     url = request.form.get("url")
