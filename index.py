@@ -1,4 +1,5 @@
 import os
+import hashlib
 from urllib.parse import urlparse, unquote
 
 import jwt
@@ -11,8 +12,7 @@ from supabase import create_client
 from build_list import build_list
 from substack import get_posts, get_posts_list, get_recommendations
 from get_title import get_title
-from context import get_article
-from summarize_article import summarize_article
+from context import get_article, summarize_article
 
 load_dotenv()
 
@@ -240,75 +240,58 @@ def get_posts_route():
     return jsonify({"posts": posts})
 
 
-@app.route("/posts/<post_id>/summary", methods=["GET"])
-def get_post_summary(post_id):
-    """Return summary for a post: { id, url, article_title, post_date, short_summary, full_summary }. Requires Bearer auth."""
+@app.route("/posts/summary", methods=["POST"])
+def get_post_summary():
+    """Return summary for a single post URL.
+
+    Requires query param post_url and Bearer auth.
+    Response: { id, url, article_title, post_date, short_summary, full_summary }
+    """
     user_id = _get_user_id_from_request()
     if not user_id:
         return jsonify({"error": "Unauthorized"}), 401
-
-    article_url = ""
-    article_title = ""
-    post_date = ""
-
-    # Find the post in the user's subscribed newsletters
+    body = request.get_json(silent=True) or {}
+    raw_url = (request.args.get("post_url") or body.get("post_url") or "").strip()
+    if not raw_url:
+        return jsonify({"error": "post_url is required"}), 400
+    post_url = unquote(raw_url)
+    if not post_url.startswith(("http://", "https://")):
+        post_url = "https://" + post_url
     try:
-        supabase = _get_supabase()
-        rows = (
-            supabase.table("newsletter_urls")
-            .select("url")
-            .eq("user_id", user_id)
-            .execute()
-        )
-        newsletter_urls = [row.get("url") for row in (rows.data or []) if row.get("url")]
+        article_text = get_article(post_url)
     except Exception:
-        return jsonify({"error": "Failed to load newsletters"}), 500
-
-    found = False
-    for nurl in newsletter_urls:
-        try:
-            newsletter = Newsletter(nurl)
-            posts = newsletter.get_posts(limit=20)
-        except Exception:
-            continue
-        for post in posts:
-            meta = post.get_metadata()
-            if str(meta.get("id")) != post_id:
-                continue
-            article_url = meta.get("canonical_url") or getattr(post, "url", "") or ""
-            article_title = meta.get("title") or ""
-            pd = meta.get("post_date") or ""
-            if len(pd) >= 10:
-                pd = pd[:10]
-            post_date = pd
-            found = True
-            break
-        if found:
-            break
-
-    if not found or not article_url:
-        return jsonify({"error": "Post not found"}), 404
-
+        return jsonify({"error": "Failed to fetch article"}), 500
+    cache_id = hashlib.sha1(post_url.encode("utf-8")).hexdigest()[:16]
     try:
-        article_text = get_article(article_url)
-    except Exception:
-        article_text = ""
-
-    try:
-        summary = summarize_article(post_id, article_text)
+        summary = summarize_article(cache_id, article_text)
     except Exception:
         return jsonify({"error": "Failed to summarize article"}), 500
-
-    if not isinstance(summary, dict):
-        summary = {}
-
-    short_summary = summary.get("short_summary") or summary.get("short") or ""
-    full_summary = summary.get("full_summary") or summary.get("full") or ""
-
+    if isinstance(summary, dict):
+        short_summary = (
+            summary.get("short_summary")
+            or summary.get("short")
+            or summary.get("shortSummary")
+            or ""
+        )
+        full_summary = (
+            summary.get("full_summary")
+            or summary.get("full")
+            or summary.get("fullSummary")
+            or ""
+        )
+    else:
+        short_summary = ""
+        full_summary = str(summary)
+    try:
+        title_info = get_title(post_url)
+        article_title = title_info.get("title") or ""
+    except Exception:
+        article_title = ""
+    post_date = ""
     return jsonify(
         {
-            "id": post_id,
-            "url": article_url,
+            "id": cache_id,
+            "url": post_url,
             "article_title": article_title,
             "post_date": post_date,
             "short_summary": short_summary,
