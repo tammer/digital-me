@@ -80,17 +80,17 @@ def cors_headers(response):
     return response
 
 
-@app.route("/api/posts/", methods=["POST"])
-def api_posts():
-    # Caller POSTs newsletter_url and optionally limit (form data).
-    newsletter_url = request.form.get("newsletter_url") or "https://illai.substack.com/"
-    return get_posts(newsletter_url)
+# @app.route("/api/posts/", methods=["POST"])
+# def api_posts():
+#     # Caller POSTs newsletter_url and optionally limit (form data).
+#     newsletter_url = request.form.get("newsletter_url") or "https://illai.substack.com/"
+#     return get_posts(newsletter_url)
 
 
-@app.route("/api/recommendations/", methods=["POST"])
-def api_recommendations():
-    newsletter_url = request.form.get("newsletter_url") or "https://illai.substack.com/"
-    return get_recommendations(newsletter_url)
+# @app.route("/api/recommendations/", methods=["POST"])
+# def api_recommendations():
+#     newsletter_url = request.form.get("newsletter_url") or "https://illai.substack.com/"
+#     return get_recommendations(newsletter_url)
 
 
 def _normalize_newsletter_url(url: str) -> str | None:
