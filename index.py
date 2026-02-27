@@ -103,6 +103,20 @@ def _normalize_newsletter_url(url: str) -> str | None:
     return f"{parsed.scheme}://{parsed.netloc}"
 
 
+def _normalize_post_url(url: str) -> str | None:
+    """Normalize a post URL (keep path/query, ensure http/https)."""
+    if not url.startswith(("http://", "https://")):
+        url = "https://" + url
+    parsed = urlparse(url)
+    if parsed.scheme not in ("http", "https") or not parsed.netloc:
+        return None
+    path = parsed.path or ""
+    if path != "/" and path.endswith("/"):
+        path = path[:-1]
+    parsed = parsed._replace(path=path)
+    return parsed.geturl()
+
+
 @app.route("/newsletters/subscribe-by-url", methods=["POST", "OPTIONS"])
 def subscribe_by_url():
     if request.method == "OPTIONS":
@@ -205,19 +219,19 @@ def get_posts_route():
     normalized = _normalize_newsletter_url(newsletter_url)
     if normalized is None:
         return jsonify({"error": "Invalid newsletter URL"}), 400
-    read_post_ids = set()
+    read_post_urls = set()
     try:
         supabase = _get_supabase()
         rows = (
             supabase.table("read_posts")
-            .select("post_id")
+            .select("post_url")
             .eq("user_id", user_id)
             .execute()
         )
         for row in (rows.data or []):
-            pid = row.get("post_id")
-            if pid is not None:
-                read_post_ids.add(pid)
+            url = row.get("post_url")
+            if url:
+                read_post_urls.add(url)
     except Exception:
         pass
     try:
@@ -227,15 +241,17 @@ def get_posts_route():
     posts = []
     for p in raw_posts:
         post_id = p.get("id")
+        raw_url = p.get("url") or ""
+        norm_url = _normalize_post_url(raw_url) or raw_url
         item = {
             "title": p.get("title") or "",
             "date": p.get("post_date") or "",
-            "read": post_id in read_post_ids if post_id is not None else False,
+            "read": norm_url in read_post_urls if norm_url else False,
         }
         if post_id is not None:
             item["id"] = post_id
-        if p.get("url") is not None:
-            item["url"] = p["url"]
+        if raw_url:
+            item["url"] = raw_url
         posts.append(item)
     return jsonify({"posts": posts})
 
@@ -298,6 +314,42 @@ def get_post_summary():
             "full_summary": full_summary,
         }
     )
+
+
+@app.route("/posts/read", methods=["POST"])
+def set_post_read_state():
+    """Mark a post as read or unread for the authenticated user.
+
+    Body: { "post_url": "<article URL>", "read": true | false }
+    """
+    user_id = _get_user_id_from_request()
+    if not user_id:
+        return jsonify({"error": "Unauthorized"}), 401
+    body = request.get_json(silent=True) or {}
+    raw_url = (body.get("post_url") or "").strip()
+    if not raw_url:
+        return jsonify({"error": "post_url is required"}), 400
+    desired_read = body.get("read")
+    if desired_read is None:
+        desired_read = True
+    desired_read = bool(desired_read)
+    post_url = unquote(raw_url)
+    norm_url = _normalize_post_url(post_url)
+    if norm_url is None:
+        return jsonify({"error": "Invalid post_url"}), 400
+    try:
+        supabase = _get_supabase()
+    except RuntimeError:
+        return jsonify({"error": "Service unavailable"}), 500
+    try:
+        table = supabase.table("read_posts")
+        if desired_read:
+            table.upsert({"user_id": user_id, "post_url": norm_url}).execute()
+        else:
+            table.delete().eq("user_id", user_id).eq("post_url", norm_url).execute()
+    except Exception:
+        return jsonify({"error": "Failed to update read state"}), 500
+    return jsonify({"ok": True})
 
 
 @app.route("/api/get_title/", methods=["POST"])
