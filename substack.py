@@ -1,4 +1,5 @@
 from pathlib import Path
+import time
 
 from substack_api import Newsletter
 from htmlstripper import _strip_html
@@ -7,10 +8,21 @@ from get_title import get_title
 
 CONTENT_CACHE_DIR = Path("content_cache")
 
+# Cache for get_posts_list: (normalized_url, limit) -> (cached_at, list[dict])
+_POSTS_LIST_CACHE: dict[tuple[str, int], tuple[float, list[dict]]] = {}
+POSTS_LIST_CACHE_MAX_AGE_SECONDS = 12 * 3600  # 12 hours
+
+
 def get_posts_list(newsletter_url: str, limit: int = 20) -> list[dict]:
     """Return list of { id, title, url, post_date } for a newsletter (no content/summary)."""
     if not newsletter_url.startswith(("http://", "https://")):
         newsletter_url = "https://" + newsletter_url
+    cache_key = (newsletter_url, limit)
+    now = time.monotonic()
+    if cache_key in _POSTS_LIST_CACHE:
+        cached_at, cached_list = _POSTS_LIST_CACHE[cache_key]
+        if (now - cached_at) < POSTS_LIST_CACHE_MAX_AGE_SECONDS:
+            return cached_list
     newsletter = Newsletter(newsletter_url)
     posts = newsletter.get_posts(limit=limit)
     rv = []
@@ -25,7 +37,9 @@ def get_posts_list(newsletter_url: str, limit: int = 20) -> list[dict]:
             "url": meta.get("canonical_url"),
             "post_date": post_date,
         })
-    return sorted(rv, key=lambda x: x["post_date"], reverse=True)
+    rv = sorted(rv, key=lambda x: x["post_date"], reverse=True)
+    _POSTS_LIST_CACHE[cache_key] = (now, rv)
+    return rv
 
 
 def _get_content(post) -> str:
